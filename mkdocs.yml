@@ -1,0 +1,5 @@
+site_name: Bridgefin
+docs_dir: documentation
+theme:
+  name: readthedocs
+  highlightjs: true

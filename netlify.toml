@@ -1,0 +1,10 @@
+[build]
+	base = "frontend/coinhub.bridgefinance.net"
+	command = "npm run build"
+	publish = "frontend/coinhub.bridgefinance.net/dist"
+
+[[redirects]]
+  from = "/*"
+  to = "/"
+	status = 200
+
