@@ -1,0 +1,127 @@
+version: '3.2'
+
+services:
+  geth:
+    image:
+      ethereum/client-go:stable
+    volumes:
+      - /home/srv/geth:/root/.ethereum
+    command: --rpcvhosts geth --rpc --rpcaddr "0.0.0.0" --cache 1024 --rpc --syncmode "fast" --ws --ws.addr "0.0.0.0" --ws.origins "*" --ws.port 8546
+    ports: 
+      - mode: host
+        target: 8545
+        published: 8545
+      - mode: host
+        target: 8546
+        published: 8546
+    logging:
+      options:
+        max-size: "50m"
+    networks:
+      - scrapers-network
+    deploy:
+      mode: global
+      restart_policy:
+        delay: 2s
+        window: 20s
+
+  binance-token:
+    build:
+      context: $GOPATH
+      dockerfile: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/build/Dockerfile-binance-token
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_binance-token
+    networks:
+      - scrapers-network
+    depends_on:
+      - geth
+    logging:
+      options:
+        max-size: "50m"
+    secrets:
+      - api_bridgefinance
+
+  oracleservice:
+    build:
+      context: $GOPATH
+      dockerfile: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/build/Dockerfile-oracleService
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_oracleservice
+    networks:
+      - scrapers-network
+    command: --deployedContract=0xD47FDf51D61c100C447E2D4747c7126F19fa23Ef
+    logging:
+      options:
+        max-size: "50m"
+    secrets:
+      - oracle_keys
+
+  eth:
+    build:
+      context: $GOPATH
+      dockerfile: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/build/Dockerfile-eth
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_eth
+    networks:
+      - scrapers-network
+    depends_on:
+      - geth
+    logging:
+      options:
+        max-size: "50m"
+    secrets:
+      - api_bridgefinance
+
+  maker-token:
+    build:
+      context: $GOPATH
+      dockerfile: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/build/Dockerfile-maker-token
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_maker-token
+    networks:
+      - scrapers-network
+    depends_on:
+      - geth
+    logging:
+      options:
+        max-size: "50m"
+    secrets:
+      - api_bridgefinance
+
+  xcel-token:
+    build:
+      context: $GOPATH
+      dockerfile: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/build/Dockerfile-xcel-token
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_xcel-token
+    networks:
+      - scrapers-network
+    depends_on:
+      - geth
+    logging:
+      options:
+        max-size: "50m"
+    secrets:
+      - api_bridgefinance
+
+  aragon-token:
+    build:
+      context: $GOPATH
+      dockerfile: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/build/Dockerfile-aragon-token
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_aragon-token
+    networks:
+      - scrapers-network
+    depends_on:
+      - geth
+    logging:
+      options:
+        max-size: "50m"
+    secrets:
+      - api_bridgefinance
+
+secrets:
+  api_bridgefinance:
+    file: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/secrets/api_bridgefinance.json
+  oracle_keys:
+    file: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/secrets/oracle_keys.txt
+
+volumes:
+  bitcoin:
+
+networks:
+  scrapers-network:

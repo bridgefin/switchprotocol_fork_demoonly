@@ -1,0 +1,70 @@
+version: '3.2'
+services:
+
+  restserver:
+    environment:
+      - EXEC_MODE=production
+    ports:
+      - "8080:8080"
+    build:
+      context: ../../../..
+      dockerfile: github.com/bridgefinance-org/bridgefinance/build/Dockerfile-restServer
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_restserver:latest
+    networks:
+      - kafka-network
+      - redis-network
+      - influxdb-network
+    secrets:
+      - api_bridgefinance
+    logging:
+      options:
+        max-size: "50m"
+    volumes:
+      - /home/srv/restServer/charts:/charts
+
+  nginx:
+    build:
+      context: ../../../..
+      dockerfile: github.com/bridgefinance-org/bridgefinance/build/Dockerfile-nginx
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_nginx:latest
+    networks:
+      - kafka-network
+    ports:
+      - "443:443"
+      - "80:80"
+    secrets:
+      - api_bridgefinance_ssl_certificate
+      - api_bridgefinance_ssl_certificate_key
+      - d2_bridgefinance_ssl_certificate
+      - d2_bridgefinance_ssl_certificate_key
+      - htpassword
+    logging:
+      options:
+        max-size: "50m"
+    depends_on:
+      - restserver
+
+secrets:
+  api_bridgefinance_ssl_certificate:
+    file: ../secrets/live/api.bridgefinance.org/fullchain.pem
+  api_bridgefinance_ssl_certificate_key:
+    file: ../secrets/live/api.bridgefinance.org/privkey.pem
+  d2_bridgefinance_ssl_certificate:
+    file: ../secrets/live/d2.bridgefinance.org/fullchain.pem
+  d2_bridgefinance_ssl_certificate_key:
+    file: ../secrets/live/d2.bridgefinance.org/privkey.pem
+  api_bridgefinance:
+    file: ../secrets/api_bridgefinance.json
+  htpassword:
+    file: ../secrets/htpassword.nginx
+
+networks:
+  kafka-network:
+    external:
+        name: kafka_kafka-network
+  redis-network:
+    external:
+        name: redis_redis-network
+  influxdb-network:
+    external:
+        name: influxdb_influxdb-network

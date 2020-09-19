@@ -1,0 +1,45 @@
+version: '3.2'
+
+services:
+  gethc:
+    image:
+      unscipreneur/ethereum-classic-geth
+    hostname: etcnode
+    volumes:
+       - /home/srv/gethc:/root/.ethereum-classic
+    command: "--name geth-classic --rpc --cache=1024 --rpcaddr=0.0.0.0 --rpcport=8545"
+    ports:
+      - 8545
+      - 30303
+    logging:
+      options:
+        max-size: "50m"
+    networks:
+      - scrapers-network
+    deploy:
+      mode: global
+      restart_policy:
+        delay: 2s
+        window: 20s
+
+  etc:
+    build:
+      context: $GOPATH
+      dockerfile: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/build/Dockerfile-etc
+    image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_etc
+    networks:
+      - scrapers-network
+    depends_on:
+      - gethc
+    logging:
+      options:
+        max-size: "50m"
+    secrets:
+      - api_bridgefinance
+
+secrets:
+  api_bridgefinance:
+    file: $GOPATH/src/github.com/bridgefinance-org/bridgefinance/secrets/api_bridgefinance.json
+
+networks:
+  scrapers-network:
