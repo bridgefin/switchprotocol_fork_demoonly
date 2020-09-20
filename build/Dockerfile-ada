@@ -4,7 +4,7 @@ WORKDIR $GOPATH
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/internal/pkg/blockchain-scrapers/blockchains/cardano/scrapers/ada/
+WORKDIR $GOPATH/src/github.com/bridgefinance-net
 
 RUN go install
 
