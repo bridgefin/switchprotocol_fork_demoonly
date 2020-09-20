@@ -3,8 +3,7 @@ FROM golang:latest as build
 WORKDIR $GOPATH/src/
 
 COPY . .
-
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/cmd/ratescrapers
+WORKDIR $GOPATH/src/github.com/bridgefinance-net/cmd/ratescrapers
 
 RUN go install
 
