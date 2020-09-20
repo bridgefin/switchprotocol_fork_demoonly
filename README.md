@@ -1,10 +1,10 @@
 ﻿---
-description: 'Our Mission: Unifying Stock and Crypto Markets trading'
+Description: 'Our Mission: Unifying Stock and Crypto Markets trading through financial derivatives'
 ---
 
 # Introduction
 
-[![API Status](https://badgen.net/uptime-robot/status/m78444379-1bdbacd4cd81bf46c13bdb1f?label=API)](https://docs.bridgefinance.net/api/docs/api) [![Pull Requests]()](https://github.com/bridgefinance-net/bridgefinance/pulls) [![Netlify Status](https://api.netlify.com/api/v1/badges/4be89751-9655-472f-9bfe-c8e57b9528b2/deploy-status)](https://coinhub.bridgefinance.net)
+[![license status - this copy has non core modules or files, viewers cant compile system]!]
 
 ![](.gitbook/assets/1809026_bfr_assets-57.png)
 
