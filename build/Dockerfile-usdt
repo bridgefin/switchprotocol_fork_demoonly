@@ -12,7 +12,7 @@ WORKDIR $GOPATH
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/internal/pkg/blockchain-scrapers/blockchains/tether/scrapers/usdt
+WORKDIR $GOPATH/src/github.com/bridgefinance-net/internal/pkg/blockchain-scrapers/blockchains/tether/scrapers/usdt
 
 RUN go get ./...
 
