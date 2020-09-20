@@ -4,7 +4,7 @@ WORKDIR $GOPATH
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/internal/pkg/blockchain-scrapers/blockchains/ethereum/scrapers/erc20
+WORKDIR $GOPATH/src/github.com/bridgefinance-net/internal/pkg/blockchain-scrapers/blockchains/ethereum/scrapers/erc20
 
 RUN go install
 
