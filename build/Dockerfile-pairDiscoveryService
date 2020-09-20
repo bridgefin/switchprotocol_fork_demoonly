@@ -4,7 +4,7 @@ WORKDIR $GOPATH/src/
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/cmd/services/pairDiscoveryService
+WORKDIR $GOPATH/src/github.com/bridgefinance-net/cmd/services/pairDiscoveryService
 
 RUN go install
 
