@@ -4,7 +4,7 @@ WORKDIR $GOPATH
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/internal/pkg/blockchain-scrapers/blockchains/ethereum-classic/scrapers/etc
+WORKDIR $GOPATH/src/github.com/bridgefinance-net/internal/pkg/blockchain-scrapers/blockchains/ethereum-classic/scrapers/etc
 
 RUN go install
 
