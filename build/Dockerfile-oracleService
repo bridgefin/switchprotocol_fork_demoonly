@@ -4,7 +4,7 @@ WORKDIR $GOPATH
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/cmd/blockchain/ethereum/oracleService
+WORKDIR $GOPATH/src/github.com/bridgefinance-net/cmd/blockchain/ethereum/oracleService
 
 RUN go install
 
