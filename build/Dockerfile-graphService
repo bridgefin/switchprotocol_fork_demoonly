@@ -4,13 +4,13 @@ WORKDIR $GOPATH/src/
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/diadata/cmd/services/graphService
+WORKDIR $GOPATH/src/github.com/bridgefinance-net/
 
 RUN go install
 
 FROM gcr.io/distroless/base
 
 COPY --from=build /go/bin/graphService /bin/graphService
-COPY --from=build /go/src/github.com/diadata-org/diadata/config /config/
+COPY --from=build /go/src/github.com/bridgefinance-net/config /config/
 
 CMD ["graphService"]
